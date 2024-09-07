@@ -1,0 +1,15 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0;
+  gap: 1px;
+}
+
+p {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}

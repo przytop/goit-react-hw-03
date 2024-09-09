@@ -19,10 +19,32 @@ export default function App() {
 
   const [contacts, setContacts] = useState(initialContacts);
 
-  const [filterContacts, setFilterContacts] = useState("");
+  useEffect(() => {
+    window.localStorage.setItem("saved-contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   const addContact = (newContact) => {
-    setContacts((currentContacts) => [...currentContacts, newContact]);
+    setContacts((currentContacts) => {
+      const duplicateName = currentContacts.find(
+        (contact) =>
+          contact.name.toLowerCase() === newContact.name.toLowerCase()
+      );
+      const duplicateNumber = currentContacts.find(
+        (contact) => contact.number === newContact.number
+      );
+
+      if (duplicateName) {
+        alert(`The name ${newContact.name} is already in your contacts.`);
+        return currentContacts;
+      }
+
+      if (duplicateNumber) {
+        alert(`The number ${newContact.number} is already in your contacts.`);
+        return currentContacts;
+      }
+
+      return [...currentContacts, newContact];
+    });
   };
 
   const deleteContact = (contactId) => {
@@ -31,13 +53,10 @@ export default function App() {
     );
   };
 
+  const [filterContacts, setFilterContacts] = useState("");
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filterContacts.toLowerCase())
   );
-
-  useEffect(() => {
-    window.localStorage.setItem("saved-contacts", JSON.stringify(contacts));
-  }, [contacts]);
 
   return (
     <>
